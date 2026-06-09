@@ -34,6 +34,8 @@ public class VoterCA extends CA {
         PKCS10CertificationRequest csr = buildCSR(subject, keyPair);
 
         caCertificate = rootCA.issueSubordinateCACertificate(csr);
+
+        updateCRL(null);
     }
 
     private PKCS10CertificationRequest buildCSR(X500Name subject, KeyPair keyPair) throws Exception {

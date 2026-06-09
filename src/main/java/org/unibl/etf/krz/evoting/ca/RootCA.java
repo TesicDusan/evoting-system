@@ -70,6 +70,8 @@ public class RootCA extends CA {
         caCertificate = new JcaX509CertificateConverter()
                 .setProvider("BC")
                 .getCertificate(certBuilder.build(signer));
+
+        updateCRL(null);
     }
 
     @Override

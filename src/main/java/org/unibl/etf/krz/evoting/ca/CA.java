@@ -83,7 +83,7 @@ public abstract class CA {
     }
 
     public void saveToKeystore() throws Exception {
-        KeyStore ks = KeyStore.getInstance("PKCS142", "BC");
+        KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
         ks.load(null, null);
 
         String alias = name.toLowerCase();
