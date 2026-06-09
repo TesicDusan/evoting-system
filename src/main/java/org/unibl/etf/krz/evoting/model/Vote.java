@@ -1,4 +1,4 @@
 package org.unibl.etf.krz.evoting.model;
 
-public class Korisnik {
+public class Vote {
 }

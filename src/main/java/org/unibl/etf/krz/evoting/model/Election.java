@@ -1,4 +1,4 @@
 package org.unibl.etf.krz.evoting.model;
 
-public class KriptovaniGlas {
+public class Election {
 }

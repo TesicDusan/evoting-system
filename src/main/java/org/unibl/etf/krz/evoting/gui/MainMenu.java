@@ -1,4 +1,4 @@
 package org.unibl.etf.krz.evoting.gui;
 
-public class GlasacMeni {
+public class MainMenu {
 }
