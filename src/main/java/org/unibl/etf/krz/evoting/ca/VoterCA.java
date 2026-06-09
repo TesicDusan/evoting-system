@@ -23,6 +23,8 @@ public class VoterCA extends CA {
 
     public void bootstrap(RootCA rootCA) throws Exception {
 
+        loadSerialCounter();
+
         KeyPairGenerator kpg = KeyPairGenerator.getInstance(KEY_ALGORITHM, "BC");
         kpg.initialize(KEY_SIZE, new SecureRandom());
         keyPair = kpg.generateKeyPair();
