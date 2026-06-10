@@ -6,13 +6,11 @@ import java.util.List;
 public class Organizer extends User {
 
     private String orgName;
-    private String orgId;
     private List<String> pollIDs;
 
-    public Organizer(String username, String passwordHash, String passwordSalt, String orgName, String orgId) {
+    public Organizer(String username, String passwordHash, String passwordSalt, String orgName) {
         super(username, passwordHash, passwordSalt);
         this.orgName = orgName;
-        this.orgId = orgId;
         this.pollIDs = new ArrayList<>();
     }
 
@@ -36,10 +34,6 @@ public class Organizer extends User {
 
     public String getOrgName() {
         return orgName;
-    }
-
-    public String getOrgId() {
-        return orgId;
     }
 
     public List<String> getPollIDs() {

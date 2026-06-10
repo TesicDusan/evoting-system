@@ -1,10 +1,12 @@
 package org.unibl.etf.krz.evoting.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public abstract class User {
 
     protected String username;
+    protected String userId;
     protected String passwordHash;
     protected String passwordSalt;
     protected String certPath;
@@ -14,6 +16,7 @@ public abstract class User {
     protected LocalDateTime registrationDate;
 
     protected User(String username, String passwordHash, String passwordSalt) {
+        this.userId = UUID.randomUUID().toString();
         this.username = username;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;
@@ -40,6 +43,10 @@ public abstract class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public String getPasswordHash() {
