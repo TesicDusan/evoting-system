@@ -15,6 +15,12 @@ import java.util.stream.Collectors;
 
 public class DataStore {
 
+    private static final String SEPARATOR = "/";
+    private static final String EXT_JSON = ".json";
+    private static final String EXT_HMAC = ".hmac";
+    private static final String EXT_CERTIFICATE = ".cer";
+    private static final String EXT_KEYSTORE = ".p12";
+    
     public static final String ROOT = "data";
     public static final String DIR_CA = ROOT + "/ca";
     public static final String DIR_ORGANIZERS = ROOT + "/users/organizers";
@@ -42,12 +48,12 @@ public class DataStore {
     }
 
     public static void saveOrganizer(Organizer organizer) throws IOException {
-        String path = DIR_ORGANIZERS + "/" + organizer.getUsername() + ".json";
+        String path = DIR_ORGANIZERS + SEPARATOR + organizer.getUsername() + EXT_JSON;
         writeJson(path, organizer);
     }
 
     public static Organizer loadOrganizer(String username) throws IOException {
-        String path = DIR_ORGANIZERS + "/" + username + ".json";
+        String path = DIR_ORGANIZERS + SEPARATOR + username + EXT_JSON;
         return readJson(path, Organizer.class);
     }
 
@@ -56,16 +62,16 @@ public class DataStore {
     }
 
     public static boolean organizerExists(String username) {
-        return new File(DIR_ORGANIZERS + "/" + username + ".json").exists();
+        return new File(DIR_ORGANIZERS + SEPARATOR + username + EXT_JSON).exists();
     }
 
     public static void saveVoter(Voter voter) throws IOException {
-        String path = DIR_VOTERS + "/" + voter.getUsername() + ".json";
+        String path = DIR_VOTERS + SEPARATOR + voter.getUsername() + EXT_JSON;
         writeJson(path, voter);
     }
 
     public static Voter loadVoter(String username) throws IOException {
-        String path = DIR_VOTERS + "/" + username + ".json";
+        String path = DIR_VOTERS + SEPARATOR + username + EXT_JSON;
         return readJson(path, Voter.class);
     }
 
@@ -74,7 +80,7 @@ public class DataStore {
     }
 
     public static boolean voterExists(String username) {
-        return new File(DIR_VOTERS + "/" + username + ".json").exists();
+        return new File(DIR_VOTERS + SEPARATOR + username + EXT_JSON).exists();
     }
 
     public static User loadUser(String username) throws IOException {
@@ -92,12 +98,12 @@ public class DataStore {
     }
 
     public static void savePoll(Poll poll) throws IOException {
-        String path = DIR_POLLS + "/" + poll.getPollId() + ".json";
+        String path = DIR_POLLS + SEPARATOR + poll.getPollId() + EXT_JSON;
         writeJson(path, poll);
     }
 
     public static Poll loadPoll(String pollId) throws IOException {
-        String path = DIR_POLLS + "/" + pollId + ".json";
+        String path = DIR_POLLS + SEPARATOR + pollId + EXT_JSON;
         return readJson(path, Poll.class);
     }
 
@@ -119,13 +125,13 @@ public class DataStore {
     }
 
     public static void saveEncryptedVote(EncryptedVote vote) throws IOException {
-        String dir = DIR_VOTES + "/" + vote.getPollId();
+        String dir = DIR_VOTES + SEPARATOR + vote.getPollId();
         new File(dir).mkdirs();
-        writeJson(dir + "/" + vote.geteVoteId() + ".json", vote);
+        writeJson(dir + SEPARATOR + vote.geteVoteId() + EXT_JSON, vote);
     }
 
     public static List<EncryptedVote> loadPollVotes(String pollId) throws IOException {
-        String dir = DIR_VOTES + "/" + pollId;
+        String dir = DIR_VOTES + SEPARATOR + pollId;
         return loadAll(dir, EncryptedVote.class);
     }
 
@@ -150,39 +156,39 @@ public class DataStore {
     }
 
     public static void saveHmac(String pollId, String hmacHex) throws IOException {
-        String path = DIR_HMAC + "/" + pollId + ".hmac";
+        String path = DIR_HMAC + SEPARATOR + pollId + EXT_HMAC;
         Files.writeString(Paths.get(path), hmacHex);
     }
 
     public static String loadHmac(String pollId) throws IOException {
-        String path = DIR_HMAC + "/"  + pollId + ".hmac";
+        String path = DIR_HMAC + SEPARATOR  + pollId + EXT_HMAC;
         return Files.readString(Paths.get(path)).trim();
     }
 
     public static boolean hmacExists(String pollId) {
-        return new File(DIR_HMAC + "/" + pollId + ".hmac").exists();
+        return new File(DIR_HMAC + SEPARATOR + pollId + EXT_HMAC).exists();
     }
 
     public static void saveReport(PollReport report) throws IOException {
-        String path = DIR_REPORTS + "/" + report.getResult().getPollId() + ".json";
+        String path = DIR_REPORTS + SEPARATOR + report.getResult().getPollId() + EXT_JSON;
         writeJson(path, report);
     }
 
     public static PollReport loadReport(String pollId) throws IOException {
-        String path = DIR_REPORTS + "/" + pollId + ".json";
+        String path = DIR_REPORTS + SEPARATOR + pollId + EXT_JSON;
         return readJson(path, PollReport.class);
     }
 
     public static boolean reportExists(String pollId) {
-        return new File(DIR_REPORTS + "/" + pollId + ".json").exists();
+        return new File(DIR_REPORTS + SEPARATOR + pollId + EXT_JSON).exists();
     }
 
     public static String getCertificatePath(String username) {
-        return DIR_CERTIFICATES + "/" + username + ".cer";
+        return DIR_CERTIFICATES + SEPARATOR + username + EXT_CERTIFICATE;
     }
 
     public static String getKeystorePath(String username) {
-        return DIR_KEYSTORES + "/" + username + ".p12";
+        return DIR_KEYSTORES + SEPARATOR + username + EXT_KEYSTORE;
     }
 
     private static <T> void writeJson(String path, T object) throws IOException {
@@ -207,7 +213,7 @@ public class DataStore {
         if (!dir.exists() || !dir.isDirectory()) {
             return results;
         }
-        File[] files = dir.listFiles(f -> f.getName().endsWith(".json"));
+        File[] files = dir.listFiles(f -> f.getName().endsWith(EXT_JSON));
         if (files == null) return results;
         for (File file : files) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {

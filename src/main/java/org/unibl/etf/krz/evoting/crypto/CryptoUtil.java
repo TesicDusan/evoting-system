@@ -27,6 +27,8 @@ import java.util.Base64;
 
 public class CryptoUtil {
 
+    private static final String PROVIDER = "BC";
+
     private static final String RSA_ALGORITHM = "RSA";
     private static final int RSA_KEY_SIZE = 2048;
 
@@ -63,14 +65,14 @@ public class CryptoUtil {
     }
 
     public static KeyPair generateKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance(RSA_ALGORITHM, "BC");
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(RSA_ALGORITHM, PROVIDER);
         kpg.initialize(RSA_KEY_SIZE, new SecureRandom());
         return kpg.generateKeyPair();
     }
 
     public static PKCS10CertificationRequest buildCSR(String subjectDN, KeyPair keyPair) throws Exception {
         ContentSigner signer = new JcaContentSignerBuilder(SIGNATURE_ALGORITHM)
-                .setProvider("BC")
+                .setProvider(PROVIDER)
                 .build(keyPair.getPrivate());
         return new JcaPKCS10CertificationRequestBuilder(new X500Name(subjectDN), keyPair.getPublic())
                 .build(signer);
@@ -84,7 +86,7 @@ public class CryptoUtil {
 
     public static X509Certificate loadCertificate(String path) throws CertificateException, IOException, NoSuchProviderException {
         try (FileInputStream is = new FileInputStream(path)) {
-            CertificateFactory cf = CertificateFactory.getInstance("X.509", "BC");
+            CertificateFactory cf = CertificateFactory.getInstance("X.509", PROVIDER);
             return (X509Certificate) cf.generateCertificate(is);
         }
     }
@@ -96,13 +98,13 @@ public class CryptoUtil {
     public static X509Certificate certificateFromBase64(String base64) throws CertificateException,IOException, NoSuchProviderException {
         byte[] bytes = Base64.getDecoder().decode(base64);
         try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes)) {
-            CertificateFactory cf = CertificateFactory.getInstance("X.509", "BC");
+            CertificateFactory cf = CertificateFactory.getInstance("X.509", PROVIDER);
             return (X509Certificate) cf.generateCertificate(bis);
         }
     }
 
     public static void saveToKeystore(PrivateKey privateKey, X509Certificate certificate, String alias, String password, String path) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
+        KeyStore keyStore = KeyStore.getInstance("PKCS12", PROVIDER);
         keyStore.load(null, null);
         keyStore.setKeyEntry(
                 alias,
@@ -116,7 +118,7 @@ public class CryptoUtil {
     }
 
     public static PrivateKey loadPrivateKeyFromKeystore(String alias, String password, String path) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
+        KeyStore keyStore = KeyStore.getInstance("PKCS12", PROVIDER);
         try (FileInputStream is = new FileInputStream(path)) {
             keyStore.load(is, password.toCharArray());
         }
@@ -128,7 +130,7 @@ public class CryptoUtil {
     }
 
     public static SecretKey generateAESKey() throws NoSuchAlgorithmException, NoSuchProviderException {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(AES_ALGORITHM, "BC");
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(AES_ALGORITHM, PROVIDER);
         keyGenerator.init(AES_KEY_SIZE, new SecureRandom());
         return keyGenerator.generateKey();
     }
@@ -138,7 +140,7 @@ public class CryptoUtil {
         new SecureRandom().nextBytes(ivBytes);
         IvParameterSpec iv = new IvParameterSpec(ivBytes);
 
-        Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION, "BC");
+        Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION, PROVIDER);
         cipher.init(Cipher.ENCRYPT_MODE, key, iv);
         byte[] ciphertext = cipher.doFinal(plaintext);
 
@@ -152,7 +154,7 @@ public class CryptoUtil {
         byte[] ciphertext = Base64.getDecoder().decode(ciphertextBase64);
         byte[] ivBytes = Base64.getDecoder().decode(ivBase64);
 
-        Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION, "BC");
+        Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION, PROVIDER);
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(ivBytes));
         return cipher.doFinal(ciphertext);
     }
@@ -167,39 +169,39 @@ public class CryptoUtil {
     }
 
     public static String encryptRSA(byte[] data, PublicKey publicKey) throws Exception {
-        Cipher cipher = Cipher.getInstance(RSA_WRAP_TRANSFORMATION, "BC");
+        Cipher cipher = Cipher.getInstance(RSA_WRAP_TRANSFORMATION, PROVIDER);
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         return Base64.getEncoder().encodeToString(cipher.doFinal(data));
     }
 
     public static byte[] decryptRSA(String ciphertextBase64, PrivateKey privateKey) throws Exception {
-        Cipher cipher = Cipher.getInstance(RSA_WRAP_TRANSFORMATION, "BC");
+        Cipher cipher = Cipher.getInstance(RSA_WRAP_TRANSFORMATION, PROVIDER);
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         return cipher.doFinal(Base64.getDecoder().decode(ciphertextBase64));
     }
 
     public static String sign(byte[] data, PrivateKey privateKey) throws Exception {
-        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM, "BC");
+        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM, PROVIDER);
         signature.initSign(privateKey);
         signature.update(data);
         return Base64.getEncoder().encodeToString(signature.sign());
     }
 
     public static boolean verifyBySignature(byte[] data, String signatureBase64, PublicKey publicKey) throws Exception {
-        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM, "BC");
+        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM, PROVIDER);
         signature.initVerify(publicKey);
         signature.update(data);
         return signature.verify(Base64.getDecoder().decode(signatureBase64));
     }
 
     public static SecretKey generateHMACKey() throws NoSuchAlgorithmException, NoSuchProviderException {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(HMAC_ALGORITHM, "BC");
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(HMAC_ALGORITHM, PROVIDER);
         keyGenerator.init(256, new SecureRandom());
         return keyGenerator.generateKey();
     }
 
     public static String computeHMAC(byte[] data, SecretKey key) throws Exception {
-        Mac mac = Mac.getInstance(HMAC_ALGORITHM, "BC");
+        Mac mac = Mac.getInstance(HMAC_ALGORITHM, PROVIDER);
         mac.init(key);
         return bytesToHex(mac.doFinal(data));
     }
