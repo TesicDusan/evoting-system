@@ -135,16 +135,6 @@ public class DataStore {
         return loadAll(dir, EncryptedVote.class);
     }
 
-    public static boolean ifVoted(String pollId, String voterId) throws IOException {
-        List<EncryptedVote> votes = loadPollVotes(pollId);
-        for (EncryptedVote vote : votes) {
-            if (voterId.equals(vote.getVoterId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static EncryptedVote findVote(String voterId, String pollId) throws IOException {
         List<EncryptedVote> votes = loadPollVotes(pollId);
         for (EncryptedVote vote : votes) {

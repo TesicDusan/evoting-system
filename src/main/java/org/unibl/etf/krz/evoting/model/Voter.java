@@ -1,24 +1,25 @@
 package org.unibl.etf.krz.evoting.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Voter extends User {
 
     private String firstName;
     private String lastName;
-    private List<String> castVotesIds;
+    private Map<String, String> votedInPolls;
 
     public Voter(String username, String passwordHash, String passwordSalt, String firstName, String lastName) {
         super(username, passwordHash, passwordSalt);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.castVotesIds = new ArrayList<>();
+        this.votedInPolls = new HashMap<>();
     }
 
     public Voter() {
         super();
-        this.castVotesIds = new ArrayList<>();
+        this.votedInPolls = new HashMap<>();
     }
 
     @Override
@@ -26,12 +27,16 @@ public class Voter extends User {
         return "VOTER";
     }
 
-    public void redisterVote(String pollId) {
-        this.castVotesIds.add(pollId);
+    public void registerVote(String pollId, String receiptHash) {
+        this.votedInPolls.put(pollId, receiptHash);
     }
 
     public boolean votedIn(String pollId) {
-        return this.castVotesIds.contains(pollId);
+        return this.votedInPolls.containsKey(pollId);
+    }
+
+    public String getReceiptForPoll(String pollId) {
+        return votedInPolls.get(pollId);
     }
 
     public String getFirstName() {
@@ -46,7 +51,7 @@ public class Voter extends User {
         return firstName + "" + lastName;
     }
 
-    public List<String> getCastVotesIds() {
-        return castVotesIds;
+    public Map<String, String> getVotedInPolls() {
+        return votedInPolls;
     }
 }

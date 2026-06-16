@@ -36,7 +36,7 @@ public class RegistrationService {
 
             Organizer organizer = new Organizer(username, hash, salt, orgName, orgId);
             KeyPair keyPair = CryptoUtil.generateKeyPair();
-            String subjectDN = "CN=" + orgName + ", O=" + orgId + ", OU=Organizer";
+            String subjectDN = "CN=" + orgName + ", O=" + orgId + ", OU=Organizer" + ", SERIALNUMBER=" + username;
             PKCS10CertificationRequest csr = CryptoUtil.buildCSR(subjectDN, keyPair);
 
             X509Certificate cert = organizerCA.issueOrganizerCertificate(csr);
@@ -73,7 +73,7 @@ public class RegistrationService {
 
             Voter voter = new Voter(username, hash, salt, firstName, lastName);
             KeyPair keyPair = CryptoUtil.generateKeyPair();
-            String subjectDN = "CN=" + firstName + " " + lastName + ", OU=Voter";
+            String subjectDN = "CN=" + firstName + " " + lastName + ", OU=Voter" + ", SERIALNUMBER=" + username;
             PKCS10CertificationRequest csr = CryptoUtil.buildCSR(subjectDN, keyPair);
 
             X509Certificate cert = voterCA.issueVoterCertificate(csr);

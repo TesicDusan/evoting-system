@@ -12,6 +12,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.print.DocFlavor;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -32,7 +33,7 @@ public class CryptoUtil {
     private static final String RSA_ALGORITHM = "RSA";
     private static final int RSA_KEY_SIZE = 2048;
 
-    private static final String AES_ALGORITHM = "AES";
+    public static final String AES_ALGORITHM = "AES";
     private static final String AES_TRANSFORMATION = "AES/CBC/PKCS5Padding";
     private static final int AES_KEY_SIZE = 256;
     private static final int AES_IV_SIZE = 16;
@@ -40,7 +41,7 @@ public class CryptoUtil {
     private static final String RSA_WRAP_TRANSFORMATION = "RSA/ECB/OAEPWithSHA-256andMGF1Padding";
 
     private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
-    private static final String HMAC_ALGORITHM = "HmacSHA256";
+    public static final String HMAC_ALGORITHM = "HmacSHA256";
 
     private static final String HASH_ALGORITHM = "SHA-256";
     private static final int SALT_SIZE = 16;
@@ -159,13 +160,16 @@ public class CryptoUtil {
         return cipher.doFinal(ciphertext);
     }
 
-    public static String aesKeyToBase64(SecretKey key) {
+    public static String keyToBase64(SecretKey key) {
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
 
-    public static SecretKey aesKeyFromBase64(String base64) {
+    public static SecretKey keyFromBase64(String base64, String algorithm) throws Exception {
+        if (!algorithm.equals(AES_ALGORITHM) && !algorithm.equals(HMAC_ALGORITHM)) {
+            throw new Exception("No matching algorithm: " + algorithm);
+        }
         byte[] keyBytes = Base64.getDecoder().decode(base64);
-        return new SecretKeySpec(keyBytes, AES_ALGORITHM);
+        return new SecretKeySpec(keyBytes, algorithm);
     }
 
     public static String encryptRSA(byte[] data, PublicKey publicKey) throws Exception {
@@ -211,7 +215,7 @@ public class CryptoUtil {
         return MessageDigest.isEqual(hexToBytes(actual), hexToBytes(expectedHex));
     }
 
-    private static String bytesToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
             sb.append(String.format("%02x", b));
@@ -219,7 +223,7 @@ public class CryptoUtil {
         return sb.toString();
     }
 
-    private static byte[] hexToBytes(String hex) {
+    public static byte[] hexToBytes(String hex) {
         int len = hex.length();
         byte[] data = new byte[len/2];
         for (int i = 0; i < len; i += 2) {
