@@ -24,7 +24,7 @@ public class RegistrationService {
         this.voterCA = voterCA;
     }
 
-    public Organizer registerOrg(String username, String password, String orgName, String orgId) throws RegistrationException {
+    public Organizer registerOrg(String username, String password, String orgName) throws RegistrationException {
 
         validateUsername(username);
         validatePassword(password);
@@ -34,9 +34,9 @@ public class RegistrationService {
             String salt = CryptoUtil.generateSalt();
             String hash = CryptoUtil.hashPassword(password, salt);
 
-            Organizer organizer = new Organizer(username, hash, salt, orgName, orgId);
+            Organizer organizer = new Organizer(username, hash, salt, orgName);
             KeyPair keyPair = CryptoUtil.generateKeyPair();
-            String subjectDN = "CN=" + orgName + ", O=" + orgId + ", OU=Organizer" + ", SERIALNUMBER=" + username;
+            String subjectDN = "CN=" + orgName + ", OU=Organizer" + ", SERIALNUMBER=" + username;
             PKCS10CertificationRequest csr = CryptoUtil.buildCSR(subjectDN, keyPair);
 
             X509Certificate cert = organizerCA.issueOrganizerCertificate(csr);

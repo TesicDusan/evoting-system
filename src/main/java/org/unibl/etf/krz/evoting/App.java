@@ -2,20 +2,31 @@ package org.unibl.etf.krz.evoting;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.unibl.etf.krz.evoting.ca.CAInitializer;
+import org.unibl.etf.krz.evoting.gui.MainFrame;
+import org.unibl.etf.krz.evoting.service.*;
+import org.unibl.etf.krz.evoting.storage.DataStore;
 
+import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.security.Security;
 
 public class App 
 {
     public static void main(String[] args) throws Exception
     {
-        //Registracija Bouncy Castle
         Security.addProvider(new BouncyCastleProvider());
-        System.out.println("E-Voting sistem se pokrece...");
+        System.out.println("E-Voting system starting...");
 
-        //Inicijalizacija CA
+        DataStore.initialize();
         CAInitializer.initialize();
-        System.out.println("CA tijela inicijalizovana");
-        //Ulazna tacka za GUI
+        System.out.println("CA hierarchy ready.");
+
+        RegistrationService registrationService = new RegistrationService(CAInitializer.getOrganizerCA(), CAInitializer.getVoterCA());
+        AuthService authService = new AuthService(CAInitializer.getOrganizerCA(), CAInitializer.getVoterCA());
+        VotingService votingService = new VotingService(CAInitializer.getOrganizerCA());
+        PollService pollService = new PollService(votingService);
+        ReportService reportService = new ReportService(pollService);
+
+        SwingUtilities.invokeLater(() -> new MainFrame(registrationService, authService, votingService, pollService, reportService));
     }
 }

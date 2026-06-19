@@ -48,7 +48,7 @@ public class Voter extends User {
     }
 
     public String getFullName() {
-        return firstName + "" + lastName;
+        return firstName + " " + lastName;
     }
 
     public Map<String, String> getVotedInPolls() {
