@@ -33,7 +33,7 @@ public class CAInitializer {
                 rootCA.getCaCertificate()
         );
 
-        if (keystoreExists("data/ca/oragnizer.p12")) {
+        if (keystoreExists("data/ca/organizer.p12")) {
             organizerCA.loadFromKeystore();
         } else {
             organizerCA.bootstrap(rootCA);

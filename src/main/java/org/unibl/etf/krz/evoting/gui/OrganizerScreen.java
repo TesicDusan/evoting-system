@@ -161,7 +161,11 @@ public class OrganizerScreen extends JPanel {
 
         card.add(new JLabel(poll.getName()));
         card.add(Box.createVerticalStrut(4));
-        card.add(new JLabel("ID " + poll.getPollId()));
+        JTextField idField = new JTextField("ID: " + poll.getPollId());
+        idField.setEditable(false);
+        idField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        idField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+        card.add(idField);
         card.add(new JLabel("Status: " + poll.getStatus()));
         return card;
     }

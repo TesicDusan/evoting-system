@@ -25,7 +25,7 @@ public class PollService {
         if (!endTime.isAfter(startTime)) {
             throw new PollException("End time must be after start time.");
         }
-        if (endTime.isAfter(LocalDateTime.now())) {
+        if (endTime.isBefore(LocalDateTime.now())) {
             throw new PollException("End time must not have passed.");
         }
         if (options == null || options.size() < 2 || options.size() > 5) {
@@ -41,6 +41,7 @@ public class PollService {
         try {
             Poll poll = new Poll(
                     organizer.getUserId(),
+                    organizer.getUsername(),
                     name,
                     description,
                     startTime,

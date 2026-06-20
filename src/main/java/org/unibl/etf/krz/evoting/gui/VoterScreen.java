@@ -58,7 +58,7 @@ public class VoterScreen extends JPanel {
         pollsListPanel.setLayout(new BoxLayout(pollsListPanel, BoxLayout.Y_AXIS));
 
         panel.add(new JScrollPane(pollsListPanel), BorderLayout.CENTER);
-        panel.add(refreshBtn);
+        panel.add(refreshBtn, BorderLayout.SOUTH);
 
         refreshPolls();
         return panel;
@@ -166,7 +166,7 @@ public class VoterScreen extends JPanel {
         }
 
         try {
-            X509Certificate orgCert = CryptoUtil.loadCertificate(DataStore.getCertificatePath(poll.getOrgId()));
+            X509Certificate orgCert = CryptoUtil.loadCertificate(DataStore.getCertificatePath(poll.getOrgUsername()));
             String receipt = votingService.vote(poll, voter, selectedId, orgCert, privateKey);
 
             JOptionPane.showMessageDialog(this, "Vote recorded successfully.");
@@ -192,7 +192,7 @@ public class VoterScreen extends JPanel {
         receiptsListPanel.setLayout(new BoxLayout(receiptsListPanel, BoxLayout.Y_AXIS));
 
         panel.add(new JScrollPane(receiptsListPanel), BorderLayout.CENTER);
-        panel.add(refreshBtn);
+        panel.add(refreshBtn, BorderLayout.SOUTH);
 
         refreshReceipts();
         return panel;

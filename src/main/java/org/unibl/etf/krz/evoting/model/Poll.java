@@ -16,6 +16,7 @@ public class Poll {
 
     private String pollId;
     private String orgId;
+    private String orgUsername;
     private String name;
     private String description;
     private LocalDateTime startTime;
@@ -24,9 +25,10 @@ public class Poll {
     private Status status;
     private boolean counted;
 
-    public Poll(String orgId, String name, String description, LocalDateTime startTime, LocalDateTime endTime, List<String> options) {
+    public Poll(String orgId, String orgUsername, String name, String description, LocalDateTime startTime, LocalDateTime endTime, List<String> options) {
         this.pollId = UUID.randomUUID().toString();
         this.orgId = orgId;
+        this.orgUsername = orgUsername;
         this.name = name;
         this.description = description;
         this.startTime = startTime;
@@ -85,6 +87,10 @@ public class Poll {
 
     public String getOrgId() {
         return orgId;
+    }
+
+    public String getOrgUsername() {
+        return orgUsername;
     }
 
     public String getName() {

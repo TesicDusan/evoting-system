@@ -2,6 +2,7 @@ package org.unibl.etf.krz.evoting.gui;
 
 import org.unibl.etf.krz.evoting.service.AuthService;
 import org.unibl.etf.krz.evoting.service.LoginSession;
+import org.unibl.etf.krz.evoting.storage.DataStore;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -52,7 +53,7 @@ public class CertLoginPanel extends JPanel {
 
         JButton backBtn = new JButton("Back");
         backBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
-        validateBtn.addActionListener(e -> mainFrame.showScreen(MainFrame.WELCOME_SCREEN));
+        backBtn.addActionListener(e -> mainFrame.showScreen(MainFrame.WELCOME_SCREEN));
 
         JPanel buttonRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         buttonRow.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -65,6 +66,7 @@ public class CertLoginPanel extends JPanel {
 
     private void browse() {
         JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(DataStore.DIR_CERTIFICATES));
         chooser.setFileFilter(new FileNameExtensionFilter("Certificate (*.cer)", "cer"));
         int result = chooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {

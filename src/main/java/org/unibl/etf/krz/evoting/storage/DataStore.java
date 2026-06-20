@@ -88,7 +88,7 @@ public class DataStore {
             return loadOrganizer(username);
         }
         if (voterExists(username)) {
-            loadVoter(username);
+            return loadVoter(username);
         }
         return null;
     }
@@ -118,8 +118,9 @@ public class DataStore {
     }
 
     public static List<Poll> loadPollsStatus(Poll.Status status) throws IOException {
-        loadAllPolls().forEach(Poll::refreshStatus);
-        return loadAllPolls().stream()
+        List<Poll> all = loadAllPolls();
+        all.forEach(Poll::refreshStatus);
+        return all.stream()
                 .filter(poll -> status.equals(poll.getStatus()))
                 .collect(Collectors.toList());
     }
