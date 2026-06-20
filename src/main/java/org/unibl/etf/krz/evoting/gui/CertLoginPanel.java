@@ -31,21 +31,21 @@ public class CertLoginPanel extends JPanel {
         sub.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(sub);
 
-        JPanel pathRow = new JPanel(new BorderLayout(8, 0));
+        JPanel pathRow = new JPanel(new BorderLayout(10, 0));
         pathRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-        pathRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
-        pathField.setMinimumSize(new Dimension(Integer.MAX_VALUE, 34));
+        pathRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+        pathField.setMinimumSize(new Dimension(Integer.MAX_VALUE, 35));
         JButton browseBtn = new JButton("Browse...");
         browseBtn.addActionListener(e -> browse());
         pathRow.add(pathField, BorderLayout.CENTER);
         pathRow.add(browseBtn, BorderLayout.EAST);
         card.add(pathRow);
 
-        card.add(Box.createVerticalStrut(14));
+        card.add(Box.createVerticalStrut(15));
 
         statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(statusLabel);
-        card.add(Box.createVerticalStrut(8));
+        card.add(Box.createVerticalStrut(10));
 
         JButton validateBtn = new JButton("Validate certificate");
         validateBtn.setAlignmentX(Component.LEFT_ALIGNMENT);

@@ -29,7 +29,7 @@ public class SidebarLayout extends JPanel {
         JButton btn = new JButton(label);
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 44));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
         btn.addActionListener(e -> activate(key));
 
         navButtons.put(key, btn);
@@ -49,7 +49,7 @@ public class SidebarLayout extends JPanel {
         JButton btn = new JButton(label);
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 44));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
         btn.addActionListener(e -> onLogout.run());
         navPanel.add(btn);
     }

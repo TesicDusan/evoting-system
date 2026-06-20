@@ -32,7 +32,7 @@ public class PassLoginPanel extends JPanel {
 
         statusLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(statusLabel);
-        card.add(Box.createVerticalStrut(8));
+        card.add(Box.createVerticalStrut(10));
 
         JButton loginBtn = new JButton("Login");
         loginBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -55,11 +55,11 @@ public class PassLoginPanel extends JPanel {
         JLabel label = new JLabel(text);
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         field.setAlignmentX(Component.LEFT_ALIGNMENT);
-        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
+        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
         panel.add(label);
-        panel.add(Box.createVerticalStrut(4));
+        panel.add(Box.createVerticalStrut(5));
         panel.add(field);
-        panel.add(Box.createVerticalStrut(14));
+        panel.add(Box.createVerticalStrut(15));
     }
 
     private void login() {

@@ -68,7 +68,7 @@ public class OrganizerScreen extends JPanel {
         addLabeledFiled(panel, "End time (dd.MM.yyyy HH:mm)", endField);
 
         panel.add(new JLabel("Options (2-5)"));
-        panel.add(Box.createVerticalStrut(6));
+        panel.add(Box.createVerticalStrut(5));
 
         JPanel optionsContainer = new JPanel();
         optionsContainer.setLayout(new BoxLayout(optionsContainer, BoxLayout.Y_AXIS));
@@ -78,11 +78,11 @@ public class OrganizerScreen extends JPanel {
         Runnable addOptionField = () -> {
             if (optionFields.size() >= 5) return;
             JTextField field = new JTextField();
-            field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 32));
+            field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
             field.setAlignmentX(Component.LEFT_ALIGNMENT);
             optionFields.add(field);
             optionsContainer.add(field);
-            optionsContainer.add(Box.createVerticalStrut(6));
+            optionsContainer.add(Box.createVerticalStrut(5));
             optionsContainer.revalidate();
         };
         addOptionField.run();
@@ -94,12 +94,12 @@ public class OrganizerScreen extends JPanel {
 
         panel.add(optionsContainer);
         panel.add(addOptionBtn);
-        panel.add(Box.createVerticalStrut(16));
+        panel.add(Box.createVerticalStrut(15));
 
         JLabel statusLabel = new JLabel(" ");
         statusLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(statusLabel);
-        panel.add(Box.createVerticalStrut(8));
+        panel.add(Box.createVerticalStrut(10));
 
         JButton createBtn = new JButton("Create poll");
         createBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -128,7 +128,7 @@ public class OrganizerScreen extends JPanel {
         panel.add(createBtn);
 
         JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(15);
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.add(scrollPane, BorderLayout.CENTER);
         return wrapper;
@@ -180,7 +180,7 @@ public class OrganizerScreen extends JPanel {
         pollsListPanel = new JPanel();
         pollsListPanel.setLayout(new BoxLayout(pollsListPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(pollsListPanel);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(15);
 
         panel.add(refreshBtn, BorderLayout.SOUTH);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -199,7 +199,7 @@ public class OrganizerScreen extends JPanel {
         JLabel statusLabel = new JLabel(" ");
         statusLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(statusLabel);
-        panel.add(Box.createVerticalStrut(8));
+        panel.add(Box.createVerticalStrut(10));
 
         JTextArea outputArea = new JTextArea();
         outputArea.setEditable(false);
@@ -277,11 +277,11 @@ public class OrganizerScreen extends JPanel {
         buttonRow.add(countBtn);
         buttonRow.add(exportBtn);
         panel.add(buttonRow);
-        panel.add(Box.createVerticalStrut(16));
+        panel.add(Box.createVerticalStrut(15));
         panel.add(outputScroll);
 
         JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(15);
 
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.add(scrollPane, BorderLayout.CENTER);
@@ -292,10 +292,10 @@ public class OrganizerScreen extends JPanel {
         JLabel label = new JLabel(labelText);
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         field.setAlignmentX(Component.LEFT_ALIGNMENT);
-        field.setMaximumSize(new Dimension(560, 34));
+        field.setMaximumSize(new Dimension(560, 35));
         container.add(label);
-        container.add(Box.createVerticalStrut(4));
+        container.add(Box.createVerticalStrut(5));
         container.add(field);
-        container.add(Box.createVerticalStrut(14));
+        container.add(Box.createVerticalStrut(15));
     }
 }

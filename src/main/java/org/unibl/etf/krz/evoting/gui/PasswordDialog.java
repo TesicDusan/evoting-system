@@ -15,7 +15,7 @@ public class PasswordDialog {
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         passwordField.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(label);
-        panel.add(Box.createVerticalStrut(8));
+        panel.add(Box.createVerticalStrut(10));
         panel.add(passwordField);
 
         int result = JOptionPane.showConfirmDialog(parent, panel, "Confirm password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);

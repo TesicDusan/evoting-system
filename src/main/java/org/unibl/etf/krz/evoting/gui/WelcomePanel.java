@@ -13,16 +13,16 @@ public class WelcomePanel extends JPanel {
 
         JButton loginBtn = new JButton("Login");
         loginBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginBtn.setMaximumSize(new Dimension(260, 42));
+        loginBtn.setMaximumSize(new Dimension(260, 45));
         loginBtn.addActionListener(e -> mainFrame.showScreen(MainFrame.CERT_LOGIN_SCREEN));
 
         JButton registerBtn = new JButton("Register");
         registerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        registerBtn.setMaximumSize(new Dimension(260, 42));
+        registerBtn.setMaximumSize(new Dimension(260, 45));
         registerBtn.addActionListener(e -> mainFrame.showScreen(MainFrame.REGISTER_SCREEN));
 
         card.add(loginBtn);
-        card.add(Box.createVerticalStrut(12));
+        card.add(Box.createVerticalStrut(15));
         card.add(registerBtn);
 
         add(card);
