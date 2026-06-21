@@ -22,9 +22,9 @@ public class App
         System.out.println("CA hierarchy ready.");
 
         RegistrationService registrationService = new RegistrationService(CAInitializer.getOrganizerCA(), CAInitializer.getVoterCA());
-        AuthService authService = new AuthService(CAInitializer.getOrganizerCA(), CAInitializer.getVoterCA());
         VotingService votingService = new VotingService(CAInitializer.getOrganizerCA());
         PollService pollService = new PollService(votingService);
+        AuthService authService = new AuthService(CAInitializer.getOrganizerCA(), CAInitializer.getVoterCA(), pollService);
         ReportService reportService = new ReportService(pollService);
 
         SwingUtilities.invokeLater(() -> new MainFrame(registrationService, authService, votingService, pollService, reportService));

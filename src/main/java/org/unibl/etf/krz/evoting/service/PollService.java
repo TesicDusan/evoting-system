@@ -71,6 +71,20 @@ public class PollService {
         }
     }
 
+    public void suspendOrganizerPolls(Organizer organizer) throws PollException {
+        try {
+            List<Poll> polls = listOrganizerPolls(organizer);
+            for (Poll poll : polls) {
+                poll.markSuspended();
+                DataStore.savePoll(poll);
+            }
+        } catch (PollException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new PollException("Error while suspending polls: " + e.getMessage());
+        }
+    }
+
     public List<Poll> listActivePolls() throws PollException {
         try {
             return DataStore.loadPollsStatus(Poll.Status.ACTIVE);

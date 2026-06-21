@@ -11,7 +11,8 @@ public class Poll {
         UPCOMING,
         ACTIVE,
         FINISHED,
-        COUNTED
+        COUNTED,
+        SUSPENDED
     }
 
     private String pollId;
@@ -45,6 +46,10 @@ public class Poll {
     public void refreshStatus() {
         if (counted) {
             this.status = Status.COUNTED;
+            return;
+        }
+        if (this.status == Status.SUSPENDED) {
+            return;
         }
         LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(endTime)) {
@@ -75,6 +80,10 @@ public class Poll {
     public void markCounted() {
         this.counted = true;
         this.status = Status.COUNTED;
+    }
+
+    public void markSuspended() {
+        this.status = Status.SUSPENDED;
     }
 
     public boolean hasValidNumOfOptions() {

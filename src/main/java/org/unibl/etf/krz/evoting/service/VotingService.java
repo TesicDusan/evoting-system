@@ -77,7 +77,7 @@ public class VotingService {
         }
 
         try {
-            Vote vote = new Vote(poll.getPollId(), voter.getUserId(), optionId);
+            Vote vote = new Vote(poll.getPollId(), voter.getUsername(), optionId);
             byte[] voteBytes = vote.serialize().getBytes(StandardCharsets.UTF_8);
 
             SecretKey aesKey = CryptoUtil.generateAESKey();
@@ -92,7 +92,7 @@ public class VotingService {
 
             EncryptedVote encVote = new EncryptedVote(
                     poll.getPollId(),
-                    voter.getUserId(),
+                    voter.getUsername(),
                     enc.getCiphertextBase64(),
                     encKey,
                     signature,
@@ -115,7 +115,7 @@ public class VotingService {
 
     public boolean verifyVote(Poll poll, Voter voter, String receiptHash, X509Certificate voterCert) throws VotingException {
         try {
-            EncryptedVote encVote = DataStore.findVote(voter.getUserId(), poll.getPollId());
+            EncryptedVote encVote = DataStore.findVote(voter.getUsername(), poll.getPollId());
             if (encVote == null) {
                 throw new VotingException("No vote record found for " + voter.getUsername() + " in " + poll.getName());
             }

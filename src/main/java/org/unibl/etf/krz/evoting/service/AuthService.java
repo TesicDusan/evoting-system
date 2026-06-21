@@ -19,10 +19,12 @@ public class AuthService {
 
     private final OrganizerCA organizerCA;
     private final VoterCA voterCA;
+    private final PollService pollService;
 
-    public AuthService(OrganizerCA organizerCA, VoterCA voterCA) {
+    public AuthService(OrganizerCA organizerCA, VoterCA voterCA, PollService pollService) {
         this.organizerCA = organizerCA;
         this.voterCA = voterCA;
+        this.pollService = pollService;
     }
 
     public LoginSession validateCertificate(String certPath) throws LoginException {
@@ -99,6 +101,7 @@ public class AuthService {
     private void revokeAndLock(User user, LoginSession session) throws LoginException {
         try {
             if ("ORGANIZER".equals(session.getUserType())) {
+                pollService.suspendOrganizerPolls((Organizer) user);
                 organizerCA.revokeCertificate(session.getUserCertificate());
             } else {
                 voterCA.revokeCertificate(session.getUserCertificate());
