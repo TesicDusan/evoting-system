@@ -103,6 +103,7 @@ public class PollService {
             votingService.checkDataIntegrity(poll);
 
             poll.refreshStatus();
+            DataStore.savePoll(poll);
             return poll;
         } catch (PollException e) {
             throw e;

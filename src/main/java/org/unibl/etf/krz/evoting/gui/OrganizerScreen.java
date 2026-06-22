@@ -166,6 +166,7 @@ public class OrganizerScreen extends JPanel {
         idField.setAlignmentX(Component.LEFT_ALIGNMENT);
         idField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
         card.add(idField);
+        poll.refreshStatus();
         card.add(new JLabel("Status: " + poll.getStatus()));
         return card;
     }

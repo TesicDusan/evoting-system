@@ -1,5 +1,7 @@
 package org.unibl.etf.krz.evoting.model;
 
+import org.unibl.etf.krz.evoting.storage.DataStore;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
