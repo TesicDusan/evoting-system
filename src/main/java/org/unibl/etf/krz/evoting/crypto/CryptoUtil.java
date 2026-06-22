@@ -92,18 +92,6 @@ public class CryptoUtil {
         }
     }
 
-    public static String certificateToBase64(X509Certificate certificate) throws CertificateEncodingException {
-        return Base64.getEncoder().encodeToString(certificate.getEncoded());
-    }
-
-    public static X509Certificate certificateFromBase64(String base64) throws CertificateException,IOException, NoSuchProviderException {
-        byte[] bytes = Base64.getDecoder().decode(base64);
-        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes)) {
-            CertificateFactory cf = CertificateFactory.getInstance("X.509", PROVIDER);
-            return (X509Certificate) cf.generateCertificate(bis);
-        }
-    }
-
     public static void saveToKeystore(PrivateKey privateKey, X509Certificate certificate, String alias, String password, String path) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12", PROVIDER);
         keyStore.load(null, null);
@@ -158,10 +146,6 @@ public class CryptoUtil {
         Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION, PROVIDER);
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(ivBytes));
         return cipher.doFinal(ciphertext);
-    }
-
-    public static String keyToBase64(SecretKey key) {
-        return Base64.getEncoder().encodeToString(key.getEncoded());
     }
 
     public static SecretKey keyFromBase64(String base64, String algorithm) throws Exception {
